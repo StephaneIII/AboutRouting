@@ -7,7 +7,6 @@ function Cart() {
   const dispatch = useDispatch<AppDispatch>()
   const items = useSelector((state: RootState) => state.cart.items)
   const navigate = useNavigate()
-  const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
   return (
     <section>
@@ -19,7 +18,8 @@ function Cart() {
           <ul>
             {items.map((item) => (
               <li key={item.id}>
-                <span>{item.name} - ${item.price.toFixed(2)} each </span>
+                <img src={item.image} alt={item.name} width={64} height={64} />{' '}
+                <span>{item.name} </span>
                 <button
                   type="button"
                   aria-label={`Decrease ${item.name} quantity`}
@@ -45,12 +45,16 @@ function Cart() {
               </li>
             ))}
           </ul>
-          <p>Total: ${total.toFixed(2)}</p>
         </>
       )}
       <button type="button" onClick={() => navigate('/shop')}>
         Continue shopping
-      </button>
+      </button>{' '}
+      {items.length > 0 && (
+        <button type="button" onClick={() => navigate('/checkout')}>
+          Checkout
+        </button>
+      )}
     </section>
   )
 }

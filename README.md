@@ -1,32 +1,59 @@
-# React + TypeScript + Vite
+# Lemonade Stand
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A React app for a small lemonade stand. Browse lemon-related drinks, add them to a cart, and manage the stand's profit.
 
-Currently, two official plugins are available:
+## Requirements
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Node.js and npm
+- Internet access to load drink data from TheCocktailDB
 
-## React Compiler
+No API key or environment variables are required.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Setup
 
-## Expanding the Oxlint configuration
+Open a terminal in the project folder, the folder containing `package.json`, and install the dependencies:
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```sh
+npm install
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Run locally
+
+Start the Vite development server:
+
+```sh
+npm run dev
+```
+
+Open the local URL printed in the terminal, usually `http://localhost:5173`.
+
+## Available commands
+
+```sh
+npm run dev      # Start the development server
+npm run build    # Type-check and create a production build in dist/
+npm run preview  # Preview the production build locally
+npm run lint     # Check the source code with oxlint
+```
+
+## Features
+
+- Home page profit controls: selling lemonade adds $5; buying lemons subtracts $2. Profit is managed with Redux Toolkit.
+- Shop page loads lemon drinks from TheCocktailDB and lets you add drinks to the cart.
+- Drink detail pages show additional API information at `/shop/:id`.
+- Cart quantity controls, item removal, and a cart count in the navigation.
+- Checkout summary and order confirmation, which clears the cart.
+- Client-side navigation with React Router.
+
+## Project structure
+
+```text
+src/
+	Components/   Shared layout and navigation
+	Controllers/  TheCocktailDB requests and data mapping
+	Models/       TypeScript data types
+	Pages/        Shop, cart, checkout, and drink detail pages
+	redux/        Redux Toolkit slices and store
+```
+
+The shop data comes from [TheCocktailDB](https://www.thecocktaildb.com/api/json/v1/1/search.php?s=lemon).

@@ -1,5 +1,6 @@
+import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { shopItems } from '../Data/ShopItems'
+import { getCocktailById } from '../Controllers/CoctailController'
 import type { CartItem } from '../Models/Cartitem'
 
 interface ItemProps {
@@ -8,7 +9,19 @@ interface ItemProps {
 
 function Item({ onAddToCart }: ItemProps) {
   const { id } = useParams<{ id: string }>()
-  const item = shopItems.find((shopItem) => shopItem.id === Number(id))
+  const [item, setItem] = useState<CartItem | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (!id) return
+    setLoading(true)
+    getCocktailById(id)
+      .then(setItem)
+      .catch(() => setItem(null))
+      .finally(() => setLoading(false))
+  }, [id])
+
+  if (loading) return <p>Loading...</p>
 
   if (!item) {
     return (
@@ -22,8 +35,10 @@ function Item({ onAddToCart }: ItemProps) {
   return (
     <section>
       <h1>{item.name}</h1>
-      <p>{item.description}</p>
-      <p>${item.price.toFixed(2)}</p>
+      <img src={item.image} alt={item.name} width={300} />
+      <p>Category: {item.category}</p>
+      <p>Glass: {item.glass}</p>
+      <p>{item.instructions}</p>
       <button type="button" onClick={() => onAddToCart(item)}>
         Add to cart
       </button>
